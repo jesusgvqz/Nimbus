@@ -3,13 +3,13 @@ Plataforma basada en tecnologías web que permite la generación, firma, y verif
 
 Páginas
 
--Resgistro
+-Registro
 -Login
 -Firmar archivo
 -Verificar archivo
 -Renovar archivo
 
-Manejador de base de datos Mysql
+Manejador de base de datos MariaDB
 
 Creación del entorno
 
