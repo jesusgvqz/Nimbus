@@ -18,11 +18,15 @@ Se realizará validación y saneamiento de las entradas de usuario es una práct
 Se limitara el tamaño de la base de datos y evitar consultas innecesarias asegura que los recursos del sistema no sean agotados por ataques maliciosos, lo que ayuda a mantener la disponibilidad y estabilidad del servicio.
 SQLite puede ser una opción segura si se sigue una estrategia de seguridad proactiva, haciendo énfasis en la protección de archivos, cifrado de datos y asegurando las configuraciones del sistema.
 
-## Creación del entorno
+## Política de contraseñas
+  Para garantizar la seguridad de tu cuenta en nuestro sitio, hemos establecido los siguientes requisitos para las contraseñas:
 
-  python3 -m venv final
-  cd final/
-  source bin/activate
-  pip install django
-  django-admin startproject mysite
-  
+Longitud mínima: La contraseña debe tener al menos 12 caracteres.
+
+La contraseña debe contener al menos:
+  1 letra mayúscula (A-Z).
+  1 letra minúscula (a-z).
+  1 número (0-9).
+Se recomienda evitar contraseñas fáciles de adivinar, como nombres comunes, fechas de nacimiento, o secuencias de caracteres simples.
+Se recomienda usar contraseñas únicas para cada cuenta.
+Mantén tu contraseña segura y no la compartas con nadie. Si sospechas que tu contraseña ha sido comprometida, cámbiala inmediatamente.
