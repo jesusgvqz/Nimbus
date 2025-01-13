@@ -1,7 +1,7 @@
 # config.py
 
 # === Importaciones de Django ===
-from django.http import HttpResponse # type: ignore
+from django.http import HttpResponse, JsonResponse # type: ignore
 from django.template import Template, Context # type: ignore
 from django.shortcuts import render, redirect # type: ignore
 from django.contrib.auth.hashers import make_password # type: ignore
@@ -23,7 +23,12 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives.serialization import load_pem_private_key
 from django.contrib.auth.decorators import login_required  # type: ignore
-
+from cryptography.hazmat.primitives.asymmetric.ec import ECDSA
+from cryptography.hazmat.primitives.hashes import SHA256
+from cryptography.exceptions import InvalidSignature
+from cryptography.hazmat.primitives.serialization import load_pem_public_key
+from cryptography.hazmat.primitives.asymmetric import ec
+from cryptography.hazmat.primitives.serialization import Encoding, PrivateFormat, PublicFormat, NoEncryption
 
 # === Importaciones generales ===
 import Nimbus.settings as conf
