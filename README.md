@@ -1,3 +1,14 @@
+> [!IMPORTANT]
+> Proyecto en desarrollo.
+
+**Funcionalidades implementadas:**
+- [x] Registro
+- [x] Login
+- [ ] Firmar archivo
+- [ ] Verificar archivo
+- [ ] Renovar llave
+
+
 # Nimbus
 
 En el contexto actual de la tecnología y la seguridad informática, la protección de la integridad y autenticidad de los datos es fundamental, especialmente cuando se trata de archivos que se intercambian a través de medios no seguros, como el correo electrónico. En este sentido, las firmas digitales desempeñan un papel crucial al garantizar que los archivos no hayan sido modificados y provengan de una fuente confiable.
