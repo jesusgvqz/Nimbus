@@ -1,12 +1,12 @@
-> [!IMPORTANT]
-> Proyecto en desarrollo.
+> [!IMPORTANT] Importante
+> Proyecto desarrollado para la experiencia educativa **Desarrollo de Sistemas Web**.
 
 **Funcionalidades implementadas:**
 - [x] Registro
 - [x] Login
 - [x] Firmar archivo
-- [ ] Verificar archivo
-- [ ] Renovar llave
+- [x] Verificar archivo
+- [x] Renovar llave
 
 
 # Nimbus
