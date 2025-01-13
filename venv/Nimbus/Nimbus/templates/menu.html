@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block titulo %}Menú Principal{% endblock %}
+{% block encabezado %}Bienvenido a tu Menú Nimbus{% endblock %}
+{% block contenido %}
+
+<form style="color: black;" >
+<h2>Menú by Nimbus</h2>
+
+<p>Selecciona una opción:</p>
+
+<ul>
+    <li><a href="/firmar-archivo/">Firmar archivo</a></li>
+    <li><a href="/verificar-archivo/">Verificar archivo</a></li>
+    <li><a href="/renovar-llave/">Renovar llave</a></li>
+</ul>
+
+<p><a href="/registro/">Cerrar sesión</a></p>
+</form>
+{% endblock %}

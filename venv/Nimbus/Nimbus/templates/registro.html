@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block encabezado %}User Register{% endblock %}
+{% block contenido %}
+
+{% if messages %}
+<div style="color: red;">
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<form style="color: black;" method="POST" action="/registro/">
+    {% csrf_token %}
+    
+    <!-- Full Name -->
+    <label for="nombre">Full Name:</label><br>
+    <input type="text" id="nombre" name="nombre" required><br><br>
+    
+    <!-- Username -->
+    <label for="username">Username:</label><br>
+    <input type="text" id="username" name="username" required><br><br>
+    
+    <!-- Password -->
+    <label for="pass">Password:</label><br>
+    <input type="password" id="password" name="password" required><br><br>
+    
+    <!-- Confirm Password -->
+    <label for="passwordConfirmation">Confirm Password:</label><br>
+    <input type="password" id="passwordConfirmation" name="passwordConfirmation" required><br><br>
+    
+    <!-- Email -->
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <button type="submit">Register</button>
+</form>
+
+{% endblock %}
