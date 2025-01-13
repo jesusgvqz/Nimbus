@@ -4,7 +4,7 @@
 **Funcionalidades implementadas:**
 - [x] Registro
 - [x] Login
-- [ ] Firmar archivo
+- [x] Firmar archivo
 - [ ] Verificar archivo
 - [ ] Renovar llave
 
