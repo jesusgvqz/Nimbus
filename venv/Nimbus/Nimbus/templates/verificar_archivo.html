@@ -1,8 +1,37 @@
 {% extends "base.html" %}
 
-{% block titulo %}VerificarArchivo  {% endblock %}
+{% block titulo %}Verificar Archivo{% endblock %}
 
 {% block encabezado %}Verificar Archivo by Nimbus{% endblock %}
+
+{% block contenido %}
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="archivo">Selecciona el archivo original:</label>
+    <input type="file" id="archivo" name="archivo" required><br><br>
+
+    <label for="firma">Selecciona el archivo de firma (.sig):</label>
+    <input type="file" id="firma" name="firma" required><br><br>
+
+    <label for="username_firmante">Usuario que firmó el archivo:</label>
+    <input type="text" id="username_firmante" name="username_firmante" required><br><br>
+
+    <button type="submit">Verificar archivo</button>
+</form>
+
+{% if mensaje %}
+    <div class="alert alert-success mt-3">
+        {{ mensaje }}
+    </div>
+{% endif %}
+
+{% if error %}
+    <div class="alert alert-danger mt-3">
+        {{ error }}
+    </div>
+{% endif %}
+{% endblock %}
+
 {% block links %}
 <nav>
     <a href="/firmar-archivo/" class="btn btn-secondary">Firmar archivo</a>
@@ -10,3 +39,4 @@
     <a href="/renovar-llave/" class="btn btn-secondary">Renovar llave</a>
 </nav>
 {% endblock %}
+
