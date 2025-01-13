@@ -140,6 +140,7 @@ def login(request):
         password = request.POST.get('password', '').strip()
         errores = []
 
+
         # Validar que usuario y contraseña no estén vacíos
         if not usuario or not password:
             errores.append('El usuario o contraseña no pueden estar vacíos.')
@@ -166,20 +167,37 @@ def login(request):
         # Si la contraseña es correcta, iniciar sesión
         request.session['logueado'] = True
         request.session['usuario'] = usuario
+
+        if user.llaves_expiradas():
+            errores.append('Tus llaves han expirado. Por favor, renuévalas antes de continuar.')
+            return render(request, t, {'errores': errores})
+        
         return redirect('/menu')  
 
 def menu(request):
     if not request.session.get('logueado', False):
         return redirect('login')  
     
-    return render(request, 'menu.html')
+    usuario = Usuario.objects.get(username=request.session['usuario'])
+    mensaje = None
+    if usuario.llaves_expiradas():
+        mensaje = "Tus llaves han expirado. Por favor, renuévalas antes de realizar cualquier acción."
+    
+    return render(request, 'menu.html', {"mensaje": mensaje})
+
 
 @login_requerido
 def firmar_archivo(request):
     if request.method == "POST":
         archivo = request.FILES.get("archivo")
-        usuario = Usuario.objects.get(username=request.user.username)
+        usuario = Usuario.objects.get(username=request.session['usuario'])
         
+        # Verificar si las llaves están expiradas
+        if usuario.llaves_expiradas():
+            return render(request, "firmar_archivo.html", {
+                "error": "Tus llaves han expirado. Por favor, renuévalas para continuar."
+            })
+
         # Leer el contenido del archivo
         datos_a_firmar = archivo.read()
 
@@ -196,13 +214,10 @@ def firmar_archivo(request):
             # Firmar los datos
             signature = private_key.sign(datos_a_firmar, ec.ECDSA(hashes.SHA256()))
 
-            # Convertir la firma a Base64 para devolverla como respuesta
-            firma_base64 = base64.b64encode(signature).decode("utf-8")
-            
-            return render(request, "firmar_archivo.html", {
-                "firma": firma_base64,
-                "mensaje": "Archivo firmado exitosamente.",
-            })
+            # Crear un archivo descargable con la firma
+            response = HttpResponse(signature, content_type="application/octet-stream")
+            response["Content-Disposition"] = f"attachment; filename={archivo.name}.sig"
+            return response
 
         except Exception as e:
             return render(request, "firmar_archivo.html", {
@@ -211,9 +226,101 @@ def firmar_archivo(request):
 
     return render(request, "firmar_archivo.html")
 
+@login_requerido
 def verificar_archivo(request):
+    if request.method == "POST":
+        archivo = request.FILES.get("archivo")
+        firma = request.FILES.get("firma")
+        username_firmante = request.POST.get("username_firmante")
 
-    return render(request, 'verificar_archivo.html')
+        try:
 
+            # Obtener el usuario actual
+            usuario_actual = Usuario.objects.get(username=request.session['usuario'])
+
+            # Verificar si las llaves del usuario actual han expirado
+            if usuario_actual.llaves_expiradas():
+                return render(request, "verificar_archivo.html", {
+                    "error": "Tus llaves han expirado. Por favor, renuévalas para continuar."
+                })
+
+            # Obtener el usuario firmante
+            usuario_firmante = Usuario.objects.get(username=username_firmante)
+            llave_publica = usuario_firmante.public_key
+            
+            # Leer contenido del archivo y la firma
+            datos_a_verificar = archivo.read()
+            firma_binaria = firma.read()
+            
+            # Cargar la llave pública
+            public_key = load_pem_public_key(llave_publica.encode("utf-8"), backend=default_backend())
+            
+            # Verificar la firma
+            try:
+                public_key.verify(firma_binaria, datos_a_verificar, ECDSA(SHA256()))
+                mensaje = "La firma es válida y el archivo no ha sido alterado."
+            except InvalidSignature:
+                mensaje = "La firma no es válida o el archivo ha sido alterado."
+            
+            return render(request, "verificar_archivo.html", {
+                "mensaje": mensaje
+            })
+
+        except Usuario.DoesNotExist:
+            return render(request, "verificar_archivo.html", {
+                "error": "El usuario firmante no existe."
+            })
+        except Exception as e:
+            return render(request, "verificar_archivo.html", {
+                "error": f"Error al verificar la firma: {str(e)}"
+            })
+
+    return render(request, "verificar_archivo.html")
+
+@login_requerido
 def renovar_llave(request):
-    return render(request, 'renovar_llave.html')
+    if request.method == "POST":
+        try:
+            usuario = Usuario.objects.get(username=request.session['usuario'])
+
+            # Generar nuevo par de llaves
+            private_key = ec.generate_private_key(ec.SECP384R1(), default_backend())
+            public_key = private_key.public_key()
+
+            # Serializar la llave pública
+            public_key_pem = public_key.public_bytes(Encoding.PEM, PublicFormat.SubjectPublicKeyInfo).decode("utf-8")
+
+            # Serializar la llave privada
+            private_key_pem = private_key.private_bytes(
+                Encoding.PEM,
+                PrivateFormat.PKCS8,
+                NoEncryption()
+            )
+
+            # Cifrar la nueva llave privada con AES
+            password = request.POST.get("password")
+            if not password:
+                return render(request, "renovar_llave.html", {
+                    "error": "La contraseña es requerida para renovar la llave."
+                })
+
+            llave_aes = generar_llave_aes_from_password(password)
+            iv = os.urandom(16)  # Generar un IV aleatorio de 16 bytes
+            llave_privada_cifrada = cifrar(private_key_pem, llave_aes, iv)
+
+            # Actualizar las llaves del usuario en la base de datos
+            usuario.private_key_encrypted = llave_privada_cifrada
+            usuario.public_key = public_key_pem
+            usuario.iv = iv.hex()
+            usuario.save()
+
+            return render(request, "renovar_llave.html", {
+                "mensaje": "Llaves renovadas exitosamente."
+            })
+
+        except Exception as e:
+            return render(request, "renovar_llave.html", {
+                "error": f"Error al renovar las llaves: {str(e)}"
+            })
+
+    return render(request, "renovar_llave.html")
