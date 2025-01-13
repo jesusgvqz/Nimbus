@@ -1,4 +1,4 @@
-> [!IMPORTANT] Importante
+> [!IMPORTANT]
 > Proyecto desarrollado para la experiencia educativa **Desarrollo de Sistemas Web**.
 
 **Funcionalidades implementadas:**
