@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block titulo %}Login{% endblock %}
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Nimbus</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/registro/">Registro</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login/">Log-in</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+{% block encabezado %}Nimbus{% endblock %}
+{% block contenido %}
+
+<div class="container mt-5">
+    <!-- Mensajes de error -->
+    {% if errores %}
+    <div class="custom-alert custom-alert-danger">
+        <ul class="mb-0">
+            {% for error in errores %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <h4 class="mb-4 text-center">Inicia Sesión</h4>
+
+    <!-- Formulario de inicio de sesión -->
+    <form class="text-start mx-auto mt-4" style="max-width: 400px;" method="POST" action="/login/">
+        {% csrf_token %}
+
+        <!-- Campo de Usuario -->
+        <div class="mb-3">
+            <label for="usuario" class="form-label">Usuario:</label>
+            <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Ingrese su usuario" required>
+        </div>
+
+        <!-- Campo de Contraseña -->
+        <div class="mb-4">
+            <label for="password" class="form-label">Contraseña:</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Ingrese su contraseña" required>
+        </div>
+
+        <!-- Botón de Enviar -->
+        <div class="d-grid">
+            <button type="submit" class="btn custom-btn">Iniciar Sesión</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+
+
+
+{% comment %} {% extends "base.html" %}
+
+{% block titulo %}Login{% endblock %}
+{% block encabezado %}Nimbus Login {% endblock %}
+{% block contenido %}
+
+{% if errores %}
+<div style="color: white; background-color: red; padding: 10px; border-radius: 5px;">
+    <ul>
+        {% for error in errores %}
+        <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<form style="color:black;" method="POST" action="/login/">
+    {% csrf_token %}
+    
+    <label for="usuario">Usuario:</label><br>
+    <input type="text" id="usuario" name="usuario" required><br><br>
+    
+    <label for="password">Contraseña:</label><br>
+    <input type="password" id="password" name="password" required><br><br>
+    
+    <button type="submit">Iniciar Sesión</button>
+</form>
+
+{% endblock %} {% endcomment %}

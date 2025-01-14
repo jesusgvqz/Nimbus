@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block titulo %}Renovar Llave{% endblock %}
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/menu/">Nimbus</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/firmar-archivo/">Firmar archivo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/verificar-archivo/">Verificar archivo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/renovar-llave/">Renovar llave</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+{% block encabezado %}Renovar Llave{% endblock %}
+
+{% block contenido %}
+<div class="container mt-4">
+    <h4 class="mb-4">Introduce tu contraseña para renovar tus llaves criptográficas.</h4>
+
+    <form method="POST" class="text-start mx-auto mt-4" style="max-width: 600px;">
+        {% csrf_token %}
+        
+        <!-- Campo de contraseña -->
+        <div class="mb-4">
+            <label for="password" class="form-label">Contraseña:</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Ingresa tu contraseña" required>
+        </div>
+
+        <!-- Botón de renovación -->
+        <div class="d-grid">
+            <button type="submit" class="btn custom-btn-renovar">Renovar Llave</button>
+        </div>
+    </form>
+
+    <!-- Mensajes de éxito o error -->
+    {% if mensaje %}
+        <div class="alert alert-success mt-4">
+            {{ mensaje }}
+        </div>
+    {% endif %}
+
+    {% if error %}
+        <div class="alert alert-danger mt-4">
+            {{ error }}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
