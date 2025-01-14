@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block titulo %}Registro{% endblock %}
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Nimbus</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/registro/">Registro</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login/">Log-in</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+{% block encabezado %}Nimbus{% endblock %}
+
+{% block contenido %}
+<div class="container mt-4">
+    <h4 class="mb-4">Regístrate para usar Nimbus</h4>
+
+    <!-- Mensajes de error o advertencia -->
+    {% if messages %}
+    <div class="custom-alert custom-alert-danger">
+        <ul class="mb-0">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <!-- Formulario de registro -->
+    <form method="POST" action="/registro/" class="text-start mx-auto" style="max-width: 400px;">
+        {% csrf_token %}
+
+        <!-- Campo: Nombre completo -->
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre completo:</label>
+            <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Tu nombre completo" required>
+        </div>
+
+        <!-- Campo: Nombre de usuario -->
+        <div class="mb-3">
+            <label for="username" class="form-label">Usuario:</label>
+            <input type="text" id="username" name="username" class="form-control" placeholder="Tu nombre de usuario" required>
+        </div>
+
+        <!-- Campo: Contraseña -->
+        <div class="mb-3">
+            <label for="password" class="form-label">Contraseña:</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Crea una contraseña segura" required>
+        </div>
+
+        <!-- Campo: Confirmar contraseña -->
+        <div class="mb-3">
+            <label for="passwordConfirmation" class="form-label">Confirmar contraseña:</label>
+            <input type="password" id="passwordConfirmation" name="passwordConfirmation" class="form-control" placeholder="Confirma tu contraseña" required>
+        </div>
+
+        <!-- Campo: Correo electrónico -->
+        <div class="mb-4">
+            <label for="email" class="form-label">Correo electrónico:</label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="Tu correo electrónico" required>
+        </div>
+
+        <!-- Botón de registro -->
+        <div class="d-grid">
+            <button type="submit" class="btn custom-btn">Registrar</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

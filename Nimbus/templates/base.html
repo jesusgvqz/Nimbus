@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+
+    <title>{% block titulo %}{% endblock %}</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link href="{% static 'css/nimbus.css' %}" rel="stylesheet">
+    
+</head>
+<body class="background-overlay text-white">
+
+    <!-- Navbar -->
+    {% block navbar %}{% endblock %}
+
+    <!-- Contenido Principal -->
+    <section class="container text-center">
+        <h1 class="display-3">{% block encabezado %}{% endblock %}</h1>
+        <hr class="my-4">
+        {% block contenido %}{% endblock %}
+    </section>
+
+    <!-- Footer -->
+    {% include "footer.html" %}
+
+</body>
+</html>

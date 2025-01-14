@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block titulo %}Verificar Archivo{% endblock %}
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/menu/">Nimbus</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/firmar-archivo/">Firmar archivo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/verificar-archivo/">Verificar archivo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/renovar-llave/">Renovar llave</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+{% block encabezado %}Verificar Archivo{% endblock %}
+{% block contenido %}
+
+<div class="container mt-4">
+    <h4 class="mb-4">Sube el archivo y la firma digital para verificar la autenticidad.</h4>
+
+    <form method="POST" enctype="multipart/form-data" class="text-start mx-auto mt-4" style="max-width: 600px;">
+        {% csrf_token %}
+
+        <!-- Campo para archivo original -->
+        <div class="mb-3">
+            <label for="archivo" class="form-label">Selecciona el archivo original:</label>
+            <input type="file" id="archivo" name="archivo" class="form-control" required>
+        </div>
+
+        <!-- Campo para archivo de firma -->
+        <div class="mb-3">
+            <label for="firma" class="form-label">Selecciona el archivo de firma (.sig):</label>
+            <input type="file" id="firma" name="firma" class="form-control" required>
+        </div>
+
+        <!-- Campo para nombre de usuario del firmante -->
+        <div class="mb-4">
+            <label for="username_firmante" class="form-label">Usuario que firmó el archivo:</label>
+            <input type="text" id="username_firmante" name="username_firmante" class="form-control" placeholder="Usuario" required>
+        </div>
+
+        <!-- Botón de envío -->
+        <div class="d-grid">
+            <button type="submit" class="btn custom-btn-verificar">Verificar archivo</button>
+        </div>
+    </form>
+
+    <!-- Mensajes de éxito o error -->
+    {% if mensaje %}
+        <div class="alert alert-success mt-3">
+            {{ mensaje }}
+        </div>
+    {% endif %}
+
+    {% if error %}
+        <div class="alert alert-danger mt-3">
+            {{ error }}
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block links %}
+<nav>
+    <a href="/firmar-archivo/" class="btn btn-secondary">Firmar archivo</a>
+    <a href="/verificar-archivo/" class="btn btn-secondary">Verificar archivo</a>
+    <a href="/renovar-llave/" class="btn btn-secondary">Renovar llave</a>
+</nav>
+{% endblock %}
