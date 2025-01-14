@@ -17,11 +17,11 @@ Este proyecto no solo tiene como objetivo demostrar la aplicación de tecnologí
 
 ## Páginas
 
--Registro
--Login
--Firmar archivo
--Verificar archivo
--Renovar llave
+- [x] Registro
+- [x] Login
+- [x] Firmar archivo
+- [x] Verificar archivo
+- [x] Renovar llave
 
 ## Manejador de base de datos SQLite
 SQLite almacena los datos como un archivo físico en el sistema de archivos, lo que significa que la protección del archivo de base de datos es clave.Se implementara controles de acceso adecuados. SQLite no cuenta con soporte nativo para cifrado, pero se pueden usar extensiones como SQLCipher para proporcionar cifrado AES, lo que agrega una capa de seguridad crítica para proteger los datos almacenados.
