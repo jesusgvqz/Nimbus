@@ -1,0 +1,14 @@
+# Ignorar el entorno virtual
+venv/
+# Archivos compilados de Python
+__pycache__/
+*.py[cod]
+# Archivos sensibles
+.env
+# Archivos temporales relacionados con PostgreSQL
+pgdata/
+# Configuraciones de IDEs
+.vscode/
+# Respaldo de base de datos
+*.sql
+*.dump
