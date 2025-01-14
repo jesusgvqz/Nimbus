@@ -23,8 +23,10 @@ Este proyecto no solo tiene como objetivo demostrar la aplicación de tecnologí
 - [x] Verificar archivo
 - [x] Renovar llave
 
-## Manejador de base de datos PostGrsest
-
+## Manejador de base de datos PostgresSQL
+Django ofrece soporte nativo para PostgreSQL a través de su backend de base de datos, lo que significa que puedes aprovechar las funcionalidades específicas de PostgreSQL directamente desde Django sin necesidad de configuraciones adicionales complejas. La documentación tanto de Django como de PostgreSQL es extensa y detallada, lo que facilita la integración de estas tecnologías. Además, tanto Django como PostgreSQL tienen comunidades muy activas.
+Almacenando información sensible como claves privadas de los usuarios, el cifrado dentro de la base de datos es una buena práctica para garantizar la seguridad de los datos. PostgreSQL permite encriptar datos a nivel de almacenamiento.
+Se deshabilito la muestra de errores de la base de datos es importante para evitar que información sensible sobre la estructura interna de la base de datos se revele en caso de un error.
 
 ## Política de contraseñas
 Para garantizar la seguridad de tu cuenta en nuestro sitio, hemos establecido los siguientes requisitos para las contraseñas:
