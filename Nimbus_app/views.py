@@ -287,6 +287,20 @@ def renovar_llave(request):
     if request.method == "POST":
         try:
             usuario = Usuario.objects.get(username=request.session['usuario'])
+            
+            # Obtener la contraseña ingresada por el usuario
+            password = request.POST.get("password")
+            if not password:
+                return render(request, "renovar_llave.html", {
+                    "error": "La contraseña es requerida para renovar la llave."
+                })
+
+            # Verificar que la contraseña ingresada es válida
+            salt = convertir_texto64_binario(usuario.salt)  # Convertir el salt almacenado
+            if not password_valido(password, usuario.password, salt):  # Validar la contraseña
+                return render(request, "renovar_llave.html", {
+                    "error": "Contraseña incorrecta. No se pudo renovar la llave."
+                })
 
             # Generar nuevo par de llaves
             private_key = ec.generate_private_key(ec.SECP384R1(), default_backend())
@@ -303,12 +317,6 @@ def renovar_llave(request):
             )
 
             # Cifrar la nueva llave privada con AES
-            password = request.POST.get("password")
-            if not password:
-                return render(request, "renovar_llave.html", {
-                    "error": "La contraseña es requerida para renovar la llave."
-                })
-
             llave_aes = generar_llave_aes_from_password(password)
             iv = os.urandom(16)  # Generar un IV aleatorio de 16 bytes
             llave_privada_cifrada = cifrar(private_key_pem, llave_aes, iv)
